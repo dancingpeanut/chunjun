@@ -10,20 +10,36 @@
             "name": "string",
             "type" : "string"
           } ],
-          "sliceRecordCount" : [ "10"]
+          "sliceRecordCount" : [ "1000000"]
         },
         "name" : "streamreader"
       },
       "writer" : {
         "parameter" : {
-          "print" : true
+          "batchInterval": 3
         },
         "name" : "streamwriter"
       }
     } ],
     "setting" : {
       "speed" : {
-        "channel" : 1
+        "channel": 1,
+        "readerChannel": 1,
+        "writerChannel": 1,
+        "rebalance": true
+      },
+      "errorLimit": {
+        "record": 1,
+        "tryOne": false
+      },
+      "restore": {
+        "maxRowNumForCheckpoint": 0,
+        "isRestore": false,
+        "restoreColumnName": "id",
+        "restoreColumnIndex": 0
+      },
+      "log": {
+        "level" : "info"
       }
     }
   }

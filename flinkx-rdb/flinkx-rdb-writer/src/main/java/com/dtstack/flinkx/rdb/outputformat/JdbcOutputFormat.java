@@ -218,6 +218,12 @@ public class JdbcOutputFormat extends BaseRichOutputFormat {
 
     @Override
     protected void writeSingleRecordInternal(Row row) throws WriteRecordException {
+        int i = (int)(Math.random()*100+1);
+        if (i < 50) {
+            LOG.info("write one error");
+            Exception e = new Exception("write error");
+            throw new WriteRecordException("", e);
+        }
         int index = 0;
         try {
             for (; index < row.getArity(); index++) {
@@ -254,6 +260,11 @@ public class JdbcOutputFormat extends BaseRichOutputFormat {
 
     @Override
     protected void writeMultipleRecordsInternal() throws Exception {
+        int i = (int)(Math.random()*100+1);
+        if (i < 50) {
+            LOG.info("write batch error");
+            throw new Exception("write error");
+        }
         try {
             for (Row row : rows) {
                 for (int index = 0; index < row.getArity(); index++) {

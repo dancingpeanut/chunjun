@@ -18,6 +18,10 @@
 
 package com.dtstack.flinkx.stream.writer;
 
+
+
+
+import com.dtstack.flinkx.exception.WriteRecordException;
 import com.dtstack.flinkx.outputformat.BaseRichOutputFormat;
 import com.dtstack.flinkx.reader.MetaColumn;
 import com.dtstack.flinkx.restore.FormatState;
@@ -47,15 +51,22 @@ public class StreamOutputFormat extends BaseRichOutputFormat {
     }
 
     @Override
-    protected void writeSingleRecordInternal(Row row) {
+    protected void writeSingleRecordInternal(Row row) throws WriteRecordException {
         if (print) {
             LOG.info("subTaskIndex[{}]:{}", taskNumber, rowToStringWithDelimiter(row, writeDelimiter));
+        }
+        int i = (int)(Math.random()*100+1);
+        if (i < 50) {
+            LOG.info("write one error");
+            Exception e = new Exception("write error");
+            throw new WriteRecordException("", e);
         }
         lastRow = row;
     }
 
     @Override
-    protected void writeMultipleRecordsInternal() {
+    protected void writeMultipleRecordsInternal() throws Exception {
+        LOG.info("write start");
         if (print) {
             for (Row row : rows) {
                 LOG.info(rowToStringWithDelimiter(row, writeDelimiter));
@@ -64,6 +75,18 @@ public class StreamOutputFormat extends BaseRichOutputFormat {
         if(rows.size() > 1){
             lastRow = rows.get(rows.size() - 1);
         }
+        int i = (int)(Math.random()*100+1);
+        if (i < 50) {
+            LOG.info("write batch error");
+            throw new Exception("write error");
+        }
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        LOG.info("write " + rows.size());
+//        blockSleep();
     }
 
     public FormatState getFormatState(){
@@ -85,6 +108,17 @@ public class StreamOutputFormat extends BaseRichOutputFormat {
                 sb.append(StringUtils.arrayAwareToString(row.getField(i)));
             }
             return sb.toString();
+        }
+    }
+
+    public void blockSleep() {
+        for (int i = 0; i < 9999; i++) {
+            try {
+                System.out.println("write block");
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

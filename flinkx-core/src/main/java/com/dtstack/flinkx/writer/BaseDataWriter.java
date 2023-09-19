@@ -52,6 +52,8 @@ public abstract class BaseDataWriter {
 
     protected Double errorRatio;
 
+    protected Boolean errorTryOne;
+
     protected String dirtyPath;
 
     protected Map<String, Object> dirtyHadoopConfig;
@@ -74,6 +76,7 @@ public abstract class BaseDataWriter {
         this.monitorUrls = config.getMonitorUrls();
         this.restoreConfig = config.getJob().getSetting().getRestoreConfig();
         this.errors = config.getJob().getSetting().getErrorLimit().getRecord();
+        this.errorTryOne = config.getJob().getSetting().getErrorLimit().getTryOne();
         Double percentage = config.getJob().getSetting().getErrorLimit().getPercentage();
         if (percentage != null) {
             this.errorRatio = percentage / 100.0;

@@ -55,6 +55,13 @@ public class StreamInputFormat extends BaseRichInputFormat {
 
     @Override
     public Row nextRecordInternal(Row row) throws IOException {
+        LOG.info("read start");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        LOG.info("read end, 1");
         return MockDataUtil.getMockRow(columns);
     }
 

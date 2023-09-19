@@ -52,6 +52,10 @@ public abstract class BaseRichOutputFormatBuilder {
         format.errors = errors;
     }
 
+    public void setErrorTryOne(Boolean errorTryOne) {
+        format.errorTryOne = errorTryOne;
+    }
+
     public void setErrorRatio(Double errorRatio) {
         format.errorRatio = errorRatio;
     }

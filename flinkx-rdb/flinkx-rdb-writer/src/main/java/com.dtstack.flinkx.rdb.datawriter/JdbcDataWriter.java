@@ -118,6 +118,7 @@ public class JdbcDataWriter extends BaseDataWriter {
         builder.setPostSql(postSql);
         builder.setErrors(errors);
         builder.setErrorRatio(errorRatio);
+        builder.setErrorTryOne(errorTryOne);
         builder.setDirtyPath(dirtyPath);
         builder.setDirtyHadoopConfig(dirtyHadoopConfig);
         builder.setSrcCols(srcCols);

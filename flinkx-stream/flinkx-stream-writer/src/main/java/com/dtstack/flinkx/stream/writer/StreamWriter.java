@@ -64,6 +64,9 @@ public class StreamWriter extends BaseDataWriter {
         builder.setDirtyHadoopConfig(dirtyHadoopConfig);
         builder.setSrcCols(srcCols);
         builder.setBatchInterval(batchInterval);
+        builder.setErrors(this.errors);
+        builder.setErrorRatio(this.errorRatio);
+        builder.setErrorTryOne(this.errorTryOne);
 
         return createOutput(dataSet, builder.finish());
     }

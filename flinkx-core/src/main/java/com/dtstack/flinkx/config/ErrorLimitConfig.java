@@ -33,9 +33,11 @@ public class ErrorLimitConfig extends AbstractConfig {
 
     public static final String KEY_ERROR_RECORD_LIMIT = "record";
     public static final String KEY_ERROR_PERCENTAGE_LIMIT = "percentage";
+    public static final String KEY_ERROR_TRY_ONE = "tryOne";
 
     public static final int DEFAULT_ERROR_RECORD_LIMIT = 0;
     public static final double DEFAULT_ERROR_PERCENTAGE_LIMIT = 0.0;
+    public static final boolean DEFAULT_ERROR_TRY_ONE = true;
 
 
     public ErrorLimitConfig(Map<String, Object> map) {
@@ -46,6 +48,7 @@ public class ErrorLimitConfig extends AbstractConfig {
         Map<String, Object> map = new HashMap<>(2);
         map.put("record",DEFAULT_ERROR_RECORD_LIMIT);
         map.put("percentage",DEFAULT_ERROR_PERCENTAGE_LIMIT);
+        map.put(KEY_ERROR_TRY_ONE, DEFAULT_ERROR_TRY_ONE);
         return new ErrorLimitConfig(map);
     }
 
@@ -64,5 +67,9 @@ public class ErrorLimitConfig extends AbstractConfig {
 
     public void setPercentage(Double percentage) {
         setDoubleVal(KEY_ERROR_PERCENTAGE_LIMIT, percentage);
+    }
+
+    public Boolean getTryOne() {
+        return getBooleanVal(KEY_ERROR_TRY_ONE,true);
     }
 }

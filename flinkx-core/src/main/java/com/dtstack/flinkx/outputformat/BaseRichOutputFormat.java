@@ -125,6 +125,8 @@ public abstract class BaseRichOutputFormat extends org.apache.flink.api.common.i
     /** 错误比例阈值 */
     protected Double errorRatio;
 
+    protected Boolean errorTryOne;
+
     /** 任务名 */
     protected String jobName = "defaultJobName";
 
@@ -431,7 +433,7 @@ public abstract class BaseRichOutputFormat extends org.apache.flink.api.common.i
         try {
             writeMultipleRecords();
         } catch(Exception e) {
-            if(restoreConfig.isRestore()){
+            if(restoreConfig.isRestore() || !this.errorTryOne){
                 throw new RuntimeException(e);
             } else {
                 rows.forEach(this::writeSingleRecord);
